@@ -1,1 +1,0 @@
-# financial-jargon-decoder

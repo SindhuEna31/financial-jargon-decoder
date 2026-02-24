@@ -1,0 +1,78 @@
+# financial-jargon-decoder
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinJargon Decoder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen py-12 px-4">
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-slate-900">📖 Financial Jargon Decoder</h1>
+            <p class="text-slate-500">Instant plain-English translations for complex finance terms.</p>
+        </div>
+
+        <div class="space-y-6">
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">Complex Financial Text</label>
+                <textarea id="input" class="w-full h-40 p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Paste text here (e.g., 'The EBITDA showed significant volatility due to amortized liabilities...')"></textarea>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="loadExample()" class="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-lg hover:bg-slate-200 transition">Load Example</button>
+                <button onclick="decode()" class="flex-1 py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition">Decode Now</button>
+            </div>
+
+            <div id="resultBox" class="hidden p-6 bg-indigo-50 rounded-xl border border-indigo-100">
+                <h3 class="text-sm font-bold text-indigo-900 uppercase mb-3">Plain English Translation:</h3>
+                <div id="output" class="text-slate-700 leading-relaxed"></div>
+            </div>
+        </div>
+
+        <p style="text-align:center; font-size:12px; color:#94a3b8; margin-top: 40px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
+            Developed by <strong>Sindhu Enagandula</strong> | FinTech Portfolio Project
+        </p>
+    </div>
+
+    <script>
+        const examples = [
+            "The company's EBITDA was impacted by non-recurring amortized liabilities and capital expenditures.",
+            "Retail investors should be wary of high expense ratios and front-end loads in mutual funds.",
+            "The hawkish stance of the Fed suggests quantitative tightening to curb inflationary pressures."
+        ];
+        let exIndex = 0;
+
+        const dictionary = {
+            "EBITDA": "Core operational profit (before taxes and accounting adjustments)",
+            "amortized liabilities": "debts paid off gradually over time",
+            "capital expenditures": "money spent on physical assets like buildings or tech",
+            "expense ratios": "annual fees charged by investment funds",
+            "front-end loads": "sales charges paid when you first buy an investment",
+            "hawkish": "likely to raise interest rates to control inflation",
+            "quantitative tightening": "the central bank reducing the money supply",
+            "volatility": "unpredictable price swings"
+        };
+
+        function loadExample() {
+            document.getElementById('input').value = examples[exIndex];
+            exIndex = (exIndex + 1) % examples.length;
+            decode();
+        }
+
+        function decode() {
+            let text = document.getElementById('input').value;
+            if(!text) return;
+
+            Object.keys(dictionary).forEach(key => {
+                const regex = new RegExp(key, "gi");
+                text = text.replace(regex, `<span class="font-bold text-indigo-600 underline decoration-indigo-300 cursor-help" title="${dictionary[key]}">${key}</span>`);
+            });
+
+            document.getElementById('resultBox').classList.remove('hidden');
+            document.getElementById('output').innerHTML = text;
+        }
+    </script>
+</body>
+</html>
